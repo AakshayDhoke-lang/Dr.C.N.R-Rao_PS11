@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HostelComplaint | Login</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="login-page">
+    <div class="login-container">
+        <div class="login-box">
+            <div class="login-header">
+                <h1><i class="fas fa-building"></i> HostelComplaint</h1>
+                <p>Hostel Maintenance Management System</p>
+            </div>
+
+            <div class="role-selector">
+                <div class="role-option active" data-role="student">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>Student</span>
+                </div>
+                <div class="role-option" data-role="warden">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Warden/Maintenance</span>
+                </div>
+            </div>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" class="form-control" placeholder="Enter your username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="form-control" placeholder="Enter your password" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+            </form>
+
+            <div class="mt-2 text-center">
+                <p>
+                    <a href="#" id="create-account-link" class="text-link">
+                        <i class="fas fa-user-plus"></i> Create New Account
+                    </a>
+                </p>
+                <p><small>Demo credentials: Student (john/123) | Warden (admin/123) | Staff (staff/123)</small></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Account Modal -->
+    <div id="createAccountModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-plus"></i> Create New Account</h2>
+                <button type="button" class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form id="create-account-form">
+                    <div class="form-group">
+                        <label for="new-username">Username *</label>
+                        <input type="text" id="new-username" class="form-control" placeholder="Choose a username" required>
+                        <div class="form-feedback" id="username-feedback"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="new-password">Password *</label>
+                        <input type="password" id="new-password" class="form-control" placeholder="Create a password" required>
+                        <div class="form-feedback" id="password-feedback"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm Password *</label>
+                        <input type="password" id="confirm-password" class="form-control" placeholder="Confirm your password" required>
+                        <div class="form-feedback" id="confirm-password-feedback"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="full-name">Full Name *</label>
+                        <input type="text" id="full-name" class="form-control" placeholder="Enter your full name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                        <div class="form-feedback" id="email-feedback"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="room-number">Room Number</label>
+                        <input type="text" id="room-number" class="form-control" placeholder="e.g., 205B (optional)">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hostel-block">Hostel Block</label>
+                        <select id="hostel-block" class="form-control">
+                            <option value="">Select Block (optional)</option>
+                            <option value="A">Block A</option>
+                            <option value="B">Block B</option>
+                            <option value="C">Block C</option>
+                            <option value="D">Block D</option>
+                            <option value="E">Block E</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" class="form-control" placeholder="Phone (optional)">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="account-type">Account Type</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="account-type" value="student" checked>
+                                <span class="radio-label">
+                                    <i class="fas fa-user-graduate"></i>
+                                    Student Account
+                                </span>
+                                <small class="radio-description">Submit and track complaints</small>
+                            </label>
+                            <label class="radio-option" id="staff-option" style="display: none;">
+                                <input type="radio" name="account-type" value="staff">
+                                <span class="radio-label">
+                                    <i class="fas fa-user-tie"></i>
+                                    Staff Account
+                                </span>
+                                <small class="radio-description">Manage assigned complaints (requires admin approval)</small>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input type="checkbox" id="terms-agreement" class="form-check-input" required>
+                            <label for="terms-agreement" class="form-check-label">
+                                I agree to the <a href="#" onclick="showTerms()">Terms of Service</a> and <a href="#" onclick="showPrivacy()">Privacy Policy</a>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fas fa-user-plus"></i> Create Account
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-block" onclick="closeModal()">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <p class="text-center"><small>Already have an account? <a href="#" onclick="showLogin()">Login here</a></small></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms Modal -->
+    <div id="termsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-file-contract"></i> Terms of Service</h2>
+                <button type="button" class="modal-close" onclick="closeTerms()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3>HostelComplaint System Terms</h3>
+                <p>By creating an account, you agree to:</p>
+                <ul>
+                    <li>Use the system only for legitimate hostel maintenance complaints</li>
+                    <li>Provide accurate and truthful information</li>
+                    <li>Not submit fraudulent or malicious complaints</li>
+                    <li>Respect the privacy of other users</li>
+                    <li>Follow hostel rules and regulations</li>
+                    <li>Maintain appropriate conduct in communications</li>
+                </ul>
+                <p>The hostel administration reserves the right to suspend accounts for violations.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Privacy Modal -->
+    <div id="privacyModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-shield-alt"></i> Privacy Policy</h2>
+                <button type="button" class="modal-close" onclick="closePrivacy()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3>Data Privacy</h3>
+                <p>We collect and use your information to:</p>
+                <ul>
+                    <li>Process and track your complaints</li>
+                    <li>Communicate about complaint status</li>
+                    <li>Improve our services</li>
+                    <li>Generate maintenance reports</li>
+                </ul>
+                <p>Your data will:</p>
+                <ul>
+                    <li>Be stored securely</li>
+                    <li>Only be accessible to authorized personnel</li>
+                    <li>Not be shared with third parties without consent</li>
+                    <li>Be retained as required by hostel policies</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        let currentRole = 'student';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize database
+            initDatabase();
+
+            // Role selector
+            const roleOptions = document.querySelectorAll('.role-option');
+            roleOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    roleOptions.forEach(o => o.classList.remove('active'));
+                    this.classList.add('active');
+                    currentRole = this.dataset.role;
+
+                    // Show/hide staff option based on selected role
+                    const staffOption = document.getElementById('staff-option');
+                    if (currentRole === 'warden') {
+                        staffOption.style.display = 'block';
+                    } else {
+                        staffOption.style.display = 'none';
+                        document.querySelector('input[name="account-type"][value="student"]').checked = true;
+                    }
+                });
+            });
+
+            // Login form
+            document.getElementById('login-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                const role = document.querySelector('.role-option.active').dataset.role;
+
+                const user = authenticateUser(username, password, role);
+
+                if (user) {
+                    // Save current user to session
+                    sessionStorage.setItem('currentUser', JSON.stringify(user));
+
+                    // Redirect based on role
+                    if (user.role === 'student') {
+                        window.location.href = 'student-dashboard.html';
+                    } else {
+                        window.location.href = 'warden-dashboard.html';
+                    }
+                } else {
+                    alert('Invalid username or password');
+                }
+            });
+
+            // Create account link
+            document.getElementById('create-account-link').addEventListener('click', function(e) {
+                e.preventDefault();
+                openCreateAccountModal();
+            });
+
+            // Create account form
+            document.getElementById('create-account-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                createNewAccount();
+            });
+
+            // Real-time validation
+            setupFormValidation();
+        });
+
+        function openCreateAccountModal() {
+            // Reset form
+            document.getElementById('create-account-form').reset();
+            clearFormFeedback();
+
+            // Set default role based on current selection
+            const staffOption = document.getElementById('staff-option');
+            if (currentRole === 'warden') {
+                staffOption.style.display = 'block';
+            } else {
+                staffOption.style.display = 'none';
+                document.querySelector('input[name="account-type"][value="student"]').checked = true;
+            }
+
+            // Show modal
+            document.getElementById('createAccountModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('createAccountModal').style.display = 'none';
+        }
+
+        function showLogin() {
+            closeModal();
+        }
+
+        function showTerms() {
+            document.getElementById('termsModal').style.display = 'flex';
+        }
+
+        function closeTerms() {
+            document.getElementById('termsModal').style.display = 'none';
+        }
+
+        function showPrivacy() {
+            document.getElementById('privacyModal').style.display = 'flex';
+        }
+
+        function closePrivacy() {
+            document.getElementById('privacyModal').style.display = 'none';
+        }
+
+        function setupFormValidation() {
+            // Username validation
+            const usernameInput = document.getElementById('new-username');
+            usernameInput.addEventListener('input', function() {
+                const username = this.value.trim();
+                const feedback = document.getElementById('username-feedback');
+
+                if (username.length < 3) {
+                    showFeedback(feedback, 'Username must be at least 3 characters', 'error');
+                } else if (username.length > 20) {
+                    showFeedback(feedback, 'Username must be less than 20 characters', 'error');
+                } else if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+                    showFeedback(feedback, 'Only letters, numbers, and underscores allowed', 'error');
+                } else if (isUsernameTaken(username)) {
+                    showFeedback(feedback, 'Username already taken', 'error');
+                } else {
+                    showFeedback(feedback, 'Username available', 'success');
+                }
+            });
+
+            // Password validation
+            const passwordInput = document.getElementById('new-password');
+            passwordInput.addEventListener('input', function() {
+                const password = this.value;
+                const feedback = document.getElementById('password-feedback');
+
+                if (password.length < 6) {
+                    showFeedback(feedback, 'Password must be at least 6 characters', 'error');
+                } else if (password.length > 50) {
+                    showFeedback(feedback, 'Password too long', 'error');
+                } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) {
+                    showFeedback(feedback, 'Include uppercase, lowercase, and numbers', 'error');
+                } else {
+                    showFeedback(feedback, 'Password strength: Good', 'success');
+                }
+
+                // Also validate confirmation
+                validatePasswordConfirmation();
+            });
+
+            // Confirm password validation
+            const confirmPasswordInput = document.getElementById('confirm-password');
+            confirmPasswordInput.addEventListener('input', validatePasswordConfirmation);
+
+            // Email validation
+            const emailInput = document.getElementById('email');
+            emailInput.addEventListener('input', function() {
+                const email = this.value.trim();
+                const feedback = document.getElementById('email-feedback');
+
+                if (!email) {
+                    clearFeedback(feedback);
+                } else if (!isValidEmail(email)) {
+                    showFeedback(feedback, 'Please enter a valid email address', 'error');
+                } else if (isEmailTaken(email)) {
+                    showFeedback(feedback, 'Email already registered', 'error');
+                } else {
+                    showFeedback(feedback, 'Email valid', 'success');
+                }
+            });
+        }
+
+        function validatePasswordConfirmation() {
+            const password = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const feedback = document.getElementById('confirm-password-feedback');
+
+            if (!confirmPassword) {
+                clearFeedback(feedback);
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showFeedback(feedback, 'Passwords do not match', 'error');
+            } else {
+                showFeedback(feedback, 'Passwords match', 'success');
+            }
+        }
+
+        function showFeedback(element, message, type) {
+            element.textContent = message;
+            element.className = 'form-feedback ' + type;
+        }
+
+        function clearFeedback(element) {
+            element.textContent = '';
+            element.className = 'form-feedback';
+        }
+
+        function clearFormFeedback() {
+            const feedbacks = document.querySelectorAll('.form-feedback');
+            feedbacks.forEach(feedback => {
+                feedback.textContent = '';
+                feedback.className = 'form-feedback';
+            });
+        }
+
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function isUsernameTaken(username) {
+            const users = getUsers();
+            return users.some(user => user.username.toLowerCase() === username.toLowerCase());
+        }
+
+        function isEmailTaken(email) {
+            const users = getUsers();
+            return users.some(user => user.email && user.email.toLowerCase() === email.toLowerCase());
+        }
+
+        function createNewAccount() {
+            // Get form values
+            const username = document.getElementById('new-username').value.trim();
+            const password = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const fullName = document.getElementById('full-name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const roomNumber = document.getElementById('room-number').value.trim();
+            const hostelBlock = document.getElementById('hostel-block').value;
+            const phone = document.getElementById('phone').value.trim();
+            const accountType = document.querySelector('input[name="account-type"]:checked').value;
+            const termsAgreed = document.getElementById('terms-agreement').checked;
+
+            // Validation
+            if (!username || !password || !confirmPassword || !fullName || !email) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            if (!termsAgreed) {
+                alert('You must agree to the Terms of Service and Privacy Policy');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+
+            if (password.length < 6) {
+                alert('Password must be at least 6 characters long');
+                return;
+            }
+
+            if (isUsernameTaken(username)) {
+                alert('Username already taken. Please choose another.');
+                return;
+            }
+
+            if (isEmailTaken(email)) {
+                alert('Email already registered. Please use another email or login.');
+                return;
+            }
+
+            // Determine role based on account type and current role selection
+            let role;
+            if (accountType === 'staff') {
+                // Staff accounts require admin approval
+                role = 'staff_pending';
+            } else {
+                role = 'student';
+            }
+
+            // Create user object
+            const newUser = {
+                username: username,
+                password: password,
+                name: fullName,
+                role: role,
+                email: email,
+                createdAt: new Date().toISOString(),
+                status: 'active'
+            };
+
+            // Add optional fields
+            if (roomNumber) newUser.room = roomNumber;
+            if (hostelBlock) newUser.block = hostelBlock;
+            if (phone) newUser.phone = phone;
+
+            // Generate ID
+            const users = getUsers();
+            const newId = users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1;
+            newUser.id = newId;
+
+            // Add to database
+            const success = addUser(newUser);
+
+            if (success) {
+                if (role === 'staff_pending') {
+                    alert(`Account created successfully! Your staff account is pending admin approval. You'll be notified by email when approved.`);
+                } else {
+                    alert(`Account created successfully! You can now login with your credentials.`);
+                }
+
+                // Close modal and reset form
+                closeModal();
+                document.getElementById('create-account-form').reset();
+
+                // Auto-fill login form
+                document.getElementById('username').value = username;
+                document.getElementById('password').value = '';
+
+                // Switch to student role for login
+                if (role === 'student') {
+                    document.querySelector('.role-option[data-role="student"]').click();
+                }
+            } else {
+                alert('Failed to create account. Please try again.');
+            }
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    if (modal.id === 'createAccountModal') {
+                        closeModal();
+                    } else if (modal.id === 'termsModal') {
+                        closeTerms();
+                    } else if (modal.id === 'privacyModal') {
+                        closePrivacy();
+                    }
+                }
+            });
+        };
+    </script>
+</body>
+
+</html>
