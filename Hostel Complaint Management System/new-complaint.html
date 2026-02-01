@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Complaint | HostelComplaint</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-building"></i>
+                    <span>HostelComplaint</span>
+                </div>
+
+                <div class="nav-links">
+                    <a href="student-dashboard.html" class="nav-link">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                    <a href="complaints.html" class="nav-link">
+                        <i class="fas fa-list"></i> My Complaints
+                    </a>
+                    <a href="new-complaint.html" class="nav-link active">
+                        <i class="fas fa-plus-circle"></i> New Complaint
+                    </a>
+                    <a href="messages.html" class="nav-link">
+                        <i class="fas fa-comments"></i> Messages
+                        <span class="notification-badge hidden" id="message-notification">0</span>
+                    </a>
+                    <div class="user-info">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="current-user-name">Loading...</span>
+                    </div>
+                    <button id="logout-btn" class="btn btn-secondary">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="page-header">
+                <h1>Submit New Complaint</h1>
+                <p>Report a maintenance issue or problem in your hostel</p>
+            </div>
+
+            <div class="form-container">
+                <form id="complaint-form">
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select id="category" class="form-control" required>
+                            <option value="">Select Category</option>
+                            <option value="Plumbing">Plumbing (Leaks, Clogs, Faucets)</option>
+                            <option value="Electricity">Electricity (Power, Lights, Sockets)</option>
+                            <option value="Cleanliness">Cleanliness (Garbage, Cleaning)</option>
+                            <option value="Internet">Internet (WiFi, Connectivity)</option>
+                            <option value="Room Issues">Room Issues (Doors, Windows, Walls)</option>
+                            <option value="Furniture">Furniture (Beds, Desks, Chairs)</option>
+                            <option value="Security">Security (Locks, Access)</option>
+                            <option value="Other">Other Issues</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="priority">Priority Level</label>
+                        <select id="priority" class="form-control" required>
+                            <option value="Low">Low (Minor issue, no urgency)</option>
+                            <option value="Medium" selected>Medium (Needs attention within 24 hours)</option>
+                            <option value="High">High (Urgent - affects living conditions)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Detailed Description</label>
+                        <textarea id="description" class="form-control" rows="5" placeholder="Describe the issue in detail. Be specific about what's wrong, when it started, and how it affects you..." required></textarea>
+                        <small class="form-text">Please provide as much detail as possible to help us resolve your issue quickly.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" class="form-control" placeholder="e.g., Room 205, Block B, 3rd Floor Corridor" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact-preference">Contact Preference</label>
+                        <select id="contact-preference" class="form-control">
+                            <option value="email">Email</option>
+                            <option value="message">In-app Message</option>
+                            <option value="phone">Phone Call</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input type="checkbox" id="urgent-checkbox" class="form-check-input">
+                            <label for="urgent-checkbox" class="form-check-label">
+                                Mark as urgent (For emergencies only)
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Submit Complaint
+                        </button>
+                        <a href="student-dashboard.html" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+
+            <div class="mt-3">
+                <div class="card">
+                    <h3><i class="fas fa-info-circle"></i> What happens after submission?</h3>
+                    <div class="process-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Complaint Received</h4>
+                                <p>Your complaint is logged and assigned a tracking number</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Review & Assignment</h4>
+                                <p>Warden reviews and assigns to appropriate maintenance staff</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Resolution</h4>
+                                <p>Staff works on the issue and updates status</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>Feedback</h4>
+                                <p>You'll be notified when resolved and can provide feedback</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication (student only)
+            const currentUser = requireAuth('student');
+            if (!currentUser) return;
+
+            document.getElementById('current-user-name').textContent = currentUser.name;
+            updateNotificationBadge();
+
+            // Logout button
+            document.getElementById('logout-btn').addEventListener('click', function() {
+                sessionStorage.removeItem('currentUser');
+                window.location.href = 'index.html';
+            });
+
+            // Urgent checkbox updates priority
+            document.getElementById('urgent-checkbox').addEventListener('change', function() {
+                if (this.checked) {
+                    document.getElementById('priority').value = 'High';
+                }
+            });
+
+            // Priority select affects urgent checkbox
+            document.getElementById('priority').addEventListener('change', function() {
+                const urgentCheckbox = document.getElementById('urgent-checkbox');
+                urgentCheckbox.checked = this.value === 'High';
+            });
+
+            // Form submission
+            document.getElementById('complaint-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const category = document.getElementById('category').value;
+                const priority = document.getElementById('priority').value;
+                const description = document.getElementById('description').value;
+                const location = document.getElementById('location').value;
+
+                if (!category) {
+                    alert('Please select a category');
+                    return;
+                }
+
+                const complaint = {
+                    studentId: currentUser.id,
+                    studentName: currentUser.name,
+                    category: category,
+                    description: description,
+                    priority: priority,
+                    status: 'Submitted',
+                    location: location,
+                    assignedTo: null,
+                    assignedName: null
+                };
+
+                const newComplaint = addComplaint(complaint);
+
+                alert(`Complaint submitted successfully! Your complaint ID is #${newComplaint.id}. You'll be notified when it's assigned.`);
+
+                // Reset form
+                this.reset();
+                document.getElementById('priority').value = 'Medium';
+
+                // Redirect to complaints page
+                setTimeout(() => {
+                    window.location.href = 'complaints.html';
+                }, 1500);
+            });
+        });
+
+        function updateNotificationBadge() {
+            const currentUser = getCurrentUser();
+            const unreadCount = getUnreadCount(currentUser.id);
+            const badge = document.getElementById('message-notification');
+
+            if (unreadCount > 0) {
+                badge.textContent = unreadCount;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+
+</html>
