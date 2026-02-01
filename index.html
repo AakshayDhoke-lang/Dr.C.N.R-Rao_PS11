@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HostelComplaint | Login</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="login-page">
+    <div class="login-container">
+        <div class="login-box">
+            <div class="login-header">
+                <h1><i class="fas fa-building"></i> HostelComplaint</h1>
+                <p>Hostel Maintenance Management System</p>
+            </div>
+
+            <!-- Account Type Selection -->
+            <div class="account-type-selector">
+                <div class="account-type active" data-type="login">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Login</span>
+                </div>
+                <div class="account-type" data-type="create-student">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>Create Student Account</span>
+                </div>
+                <div class="account-type" data-type="create-staff">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Create Staff Account</span>
+                </div>
+            </div>
+
+            <!-- Login Form (Default) -->
+            <div id="login-form-section" class="form-section active">
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" class="form-control" placeholder="Enter your username" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" class="form-control" placeholder="Enter your password" required>
+                    </div>
+
+                    <div class="role-selector">
+                        <div class="role-option" data-role="student">
+                            <i class="fas fa-user-graduate"></i>
+                            <span>Student</span>
+                        </div>
+                        <div class="role-option active" data-role="warden">
+                            <i class="fas fa-user-tie"></i>
+                            <span>Warden/Staff</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                </form>
+
+                <div class="mt-2 text-center">
+                    <p><small>Demo credentials:<br>
+                        Student: john / 123<br>
+                        Warden/Admin: admin / 123<br>
+                        Staff: staff / 123
+                    </small></p>
+                    <p><small><strong>Important:</strong> For admin login, make sure "Warden/Staff" role is selected (blue background)</small></p>
+                </div>
+            </div>
+
+            <!-- Create Student Account Form -->
+            <div id="create-student-form-section" class="form-section">
+                <!-- ... rest of create student form ... -->
+            </div>
+
+            <!-- Create Staff Account Form -->
+            <div id="create-staff-form-section" class="form-section">
+                <!-- ... rest of create staff form ... -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ... rest of modals ... -->
+
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        let currentRole = 'warden'; // Changed default to warden instead of student
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize database
+            initDatabase();
+
+            // Account type selector
+            const accountTypes = document.querySelectorAll('.account-type');
+            accountTypes.forEach(type => {
+                type.addEventListener('click', function() {
+                    accountTypes.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const accountType = this.dataset.type;
+                    showFormSection(accountType);
+                });
+            });
+
+            // Role selector (for login only)
+            const roleOptions = document.querySelectorAll('.role-option');
+            roleOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    if (document.querySelector('.account-type[data-type="login"]').classList.contains('active')) {
+                        roleOptions.forEach(o => o.classList.remove('active'));
+                        this.classList.add('active');
+                        currentRole = this.dataset.role;
+                    }
+                });
+            });
+
+            // Login form
+            document.getElementById('login-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+
+                if (!username || !password) {
+                    alert('Please enter both username and password');
+                    return;
+                }
+
+                console.log('Attempting login with:', {
+                    username,
+                    password,
+                    currentRole
+                });
+
+                const user = authenticateUser(username, password, currentRole);
+
+                if (user) {
+                    // Save current user to session
+                    sessionStorage.setItem('currentUser', JSON.stringify(user));
+                    console.log('Login successful, user:', user);
+
+                    // Redirect based on role
+                    if (user.role === 'student') {
+                        window.location.href = 'student-dashboard.html';
+                    } else {
+                        window.location.href = 'warden-dashboard.html';
+                    }
+                } else {
+                    alert('Invalid username, password, or role. Please check your credentials and selected role.');
+                }
+            });
+
+            // ... rest of form event listeners ...
+        });
+
+        // ... rest of functions ...
+    </script>
+</body>
+
+</html>
