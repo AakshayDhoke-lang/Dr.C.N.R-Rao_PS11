@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complaint Details | HostelComplaint</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-building"></i>
+                    <span>HostelComplaint</span>
+                </div>
+
+                <div class="nav-links">
+                    <a href="#" class="nav-link" id="dashboard-link">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                    <a href="complaints.html" class="nav-link">
+                        <i class="fas fa-list"></i> Complaints
+                    </a>
+                    <a href="messages.html" class="nav-link">
+                        <i class="fas fa-comments"></i> Messages
+                        <span class="notification-badge hidden" id="message-notification">0</span>
+                    </a>
+                    <div class="user-info">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="current-user-name">Loading...</span>
+                    </div>
+                    <button id="logout-btn" class="btn btn-secondary">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="page-header">
+                <div class="header-content">
+                    <h1>Complaint Details</h1>
+                    <p id="complaint-id">Loading...</p>
+                </div>
+                <div class="header-actions">
+                    <a href="messages.html" class="btn btn-secondary">
+                        <i class="fas fa-comment"></i> Messages
+                    </a>
+                    <button id="back-btn" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <h2>Complaint Information</h2>
+                        <div class="complaint-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Status:</span>
+                                <span class="detail-value" id="complaint-status">Loading...</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Priority:</span>
+                                <span class="detail-value" id="complaint-priority">Loading...</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Category:</span>
+                                <span class="detail-value" id="complaint-category">Loading...</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Submitted By:</span>
+                                <span class="detail-value" id="complaint-student">Loading...</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Location:</span>
+                                <span class="detail-value" id="complaint-location">Loading...</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Date Submitted:</span>
+                                <span class="detail-value" id="complaint-date">Loading...</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Assigned To:</span>
+                                <span class="detail-value" id="complaint-assigned">Loading...</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Last Updated:</span>
+                                <span class="detail-value" id="complaint-updated">Loading...</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Resolution Date:</span>
+                                <span class="detail-value" id="complaint-resolved">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mt-2">
+                        <h2>Description</h2>
+                        <p id="complaint-description" class="complaint-description">Loading...</p>
+                    </div>
+
+                    <div class="card mt-2" id="feedback-section" style="display: none;">
+                        <h2>Feedback</h2>
+                        <div class="feedback-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Rating:</span>
+                                <span class="detail-value" id="feedback-rating">Loading...</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Comments:</span>
+                                <p id="feedback-comments" class="feedback-comments"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card" id="action-section" style="display: none;">
+                        <h2>Actions</h2>
+                        <div class="action-buttons">
+                            <button id="assign-btn" class="btn btn-warning" style="display: none;">
+                                <i class="fas fa-user-tag"></i> Assign Complaint
+                            </button>
+                            <button id="status-btn" class="btn btn-primary" style="display: none;">
+                                <i class="fas fa-sync-alt"></i> Update Status
+                            </button>
+                            <button id="feedback-btn" class="btn btn-success" style="display: none;">
+                                <i class="fas fa-star"></i> Provide Feedback
+                            </button>
+                            <button id="resolve-btn" class="btn btn-success" style="display: none;">
+                                <i class="fas fa-check-circle"></i> Mark as Resolved
+                            </button>
+                        </div>
+
+                        <div class="status-update mt-2" id="status-update-form" style="display: none;">
+                            <h3>Update Status</h3>
+                            <select id="new-status" class="form-control mb-1">
+                                <option value="Submitted">Submitted</option>
+                                <option value="Assigned">Assigned</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Resolved">Resolved</option>
+                                <option value="Closed">Closed</option>
+                            </select>
+                            <textarea id="status-notes" class="form-control mb-1" placeholder="Add notes (optional)"></textarea>
+                            <button id="save-status-btn" class="btn btn-primary">Save Changes</button>
+                            <button id="cancel-status-btn" class="btn btn-secondary">Cancel</button>
+                        </div>
+                    </div>
+
+                    <div class="card mt-2">
+                        <h2>Timeline</h2>
+                        <div class="timeline" id="complaint-timeline">
+                            <!-- Timeline items will be added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        let currentUser = null;
+        let currentComplaint = null;
+        let complaintId = null;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get complaint ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            complaintId = parseInt(urlParams.get('id'));
+
+            if (!complaintId) {
+                alert('Invalid complaint ID');
+                window.location.href = 'complaints.html';
+                return;
+            }
+
+            // Check authentication
+            currentUser = checkAuth();
+            document.getElementById('current-user-name').textContent = currentUser.name;
+
+            // Set dashboard link based on role
+            const dashboardLink = document.getElementById('dashboard-link');
+            dashboardLink.href = currentUser.role === 'student' ? 'student-dashboard.html' : 'warden-dashboard.html';
+
+            // Setup event listeners
+            document.getElementById('logout-btn').addEventListener('click', logout);
+            document.getElementById('back-btn').addEventListener('click', () => window.history.back());
+
+            document.getElementById('assign-btn').addEventListener('click', showAssignForm);
+            document.getElementById('status-btn').addEventListener('click', showStatusForm);
+            document.getElementById('feedback-btn').addEventListener('click', provideFeedback);
+            document.getElementById('resolve-btn').addEventListener('click', markAsResolved);
+            document.getElementById('save-status-btn').addEventListener('click', updateStatus);
+            document.getElementById('cancel-status-btn').addEventListener('click', hideStatusForm);
+
+            // Load complaint details
+            loadComplaintDetails();
+            updateNotificationBadge();
+        });
+
+        function loadComplaintDetails() {
+            currentComplaint = getComplaintById(complaintId);
+
+            if (!currentComplaint) {
+                alert('Complaint not found');
+                window.location.href = 'complaints.html';
+                return;
+            }
+
+            // Check permissions
+            if (currentUser.role === 'student' && currentComplaint.studentId !== currentUser.id) {
+                alert('You do not have permission to view this complaint');
+                window.location.href = 'student-dashboard.html';
+                return;
+            }
+
+            if (currentUser.role === 'staff' && currentComplaint.assignedTo !== currentUser.id) {
+                alert('This complaint is not assigned to you');
+                window.location.href = 'warden-dashboard.html';
+                return;
+            }
+
+            // Update page title
+            document.getElementById('complaint-id').textContent = `Complaint #${currentComplaint.id}`;
+
+            // Update complaint details
+            document.getElementById('complaint-status').innerHTML =
+                `<span class="status-badge status-${currentComplaint.status.toLowerCase().replace(' ', '-')}">${currentComplaint.status}</span>`;
+
+            document.getElementById('complaint-priority').innerHTML =
+                `<span class="priority-badge priority-${currentComplaint.priority.toLowerCase()}">${currentComplaint.priority}</span>`;
+
+            document.getElementById('complaint-category').textContent = currentComplaint.category;
+            document.getElementById('complaint-student').textContent = currentComplaint.studentName;
+            document.getElementById('complaint-location').textContent = currentComplaint.location;
+            document.getElementById('complaint-date').textContent = new Date(currentComplaint.createdAt).toLocaleString();
+            document.getElementById('complaint-updated').textContent = new Date(currentComplaint.updatedAt).toLocaleString();
+            document.getElementById('complaint-description').textContent = currentComplaint.description;
+
+            document.getElementById('complaint-assigned').textContent = currentComplaint.assignedName || 'Not assigned';
+
+            if (currentComplaint.resolvedAt) {
+                document.getElementById('complaint-resolved').textContent = new Date(currentComplaint.resolvedAt).toLocaleString();
+            } else {
+                document.getElementById('complaint-resolved').textContent = 'Not resolved yet';
+            }
+
+            // Show/hide feedback section
+            if (currentComplaint.feedback) {
+                document.getElementById('feedback-section').style.display = 'block';
+                document.getElementById('feedback-rating').innerHTML =
+                    `${currentComplaint.feedback.rating} <i class="fas fa-star" style="color: #FFD700;"></i>`;
+                document.getElementById('feedback-comments').textContent = currentComplaint.feedback.comments || 'No comments';
+            }
+
+            // Show action buttons based on role and status
+            const actionSection = document.getElementById('action-section');
+            const assignBtn = document.getElementById('assign-btn');
+            const statusBtn = document.getElementById('status-btn');
+            const feedbackBtn = document.getElementById('feedback-btn');
+            const resolveBtn = document.getElementById('resolve-btn');
+
+            actionSection.style.display = 'block';
+
+            if (currentUser.role === 'warden') {
+                if (!currentComplaint.assignedTo && currentComplaint.status === 'Submitted') {
+                    assignBtn.style.display = 'inline-block';
+                }
+                statusBtn.style.display = 'inline-block';
+            } else if (currentUser.role === 'staff') {
+                statusBtn.style.display = 'inline-block';
+                if (currentComplaint.status !== 'Resolved' && currentComplaint.status !== 'Closed') {
+                    resolveBtn.style.display = 'inline-block';
+                }
+            } else if (currentUser.role === 'student') {
+                if (currentComplaint.status === 'Resolved' && !currentComplaint.feedback) {
+                    feedbackBtn.style.display = 'inline-block';
+                }
+            }
+
+            // Load timeline
+            loadTimeline();
+        }
+
+        function loadTimeline() {
+            const timeline = document.getElementById('complaint-timeline');
+            timeline.innerHTML = '';
+
+            const events = [{
+                date: currentComplaint.createdAt,
+                title: 'Complaint Submitted',
+                description: `Submitted by ${currentComplaint.studentName}`,
+                icon: 'fa-plus-circle'
+            }];
+
+            if (currentComplaint.assignedTo) {
+                events.push({
+                    date: currentComplaint.updatedAt,
+                    title: 'Complaint Assigned',
+                    description: `Assigned to ${currentComplaint.assignedName}`,
+                    icon: 'fa-user-tag'
+                });
+            }
+
+            if (currentComplaint.resolvedAt) {
+                events.push({
+                    date: currentComplaint.resolvedAt,
+                    title: 'Complaint Resolved',
+                    description: 'Issue has been resolved',
+                    icon: 'fa-check-circle'
+                });
+            }
+
+            if (currentComplaint.feedback) {
+                events.push({
+                    date: currentComplaint.feedback.submittedAt,
+                    title: 'Feedback Submitted',
+                    description: `Rated ${currentComplaint.feedback.rating} stars`,
+                    icon: 'fa-star'
+                });
+            }
+
+            // Sort by date
+            events.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            events.forEach(event => {
+                const eventDiv = document.createElement('div');
+                eventDiv.className = 'timeline-item';
+                eventDiv.innerHTML = `
+                    <div class="timeline-icon">
+                        <i class="fas ${event.icon}"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">${new Date(event.date).toLocaleString()}</div>
+                        <h4>${event.title}</h4>
+                        <p>${event.description}</p>
+                    </div>
+                `;
+                timeline.appendChild(eventDiv);
+            });
+        }
+
+        function showAssignForm() {
+            const staffMembers = getStaffMembers();
+            let staffOptions = staffMembers.map(staff => `${staff.id}: ${staff.name}`).join('\n');
+
+            const staffInput = prompt(`Enter staff ID to assign:\n\nAvailable staff:\n${staffOptions}`);
+            if (staffInput) {
+                const [staffId] = staffInput.split(':');
+                const staffIdNum = parseInt(staffId.trim());
+                const staff = staffMembers.find(s => s.id === staffIdNum);
+
+                if (staff) {
+                    updateComplaint(complaintId, {
+                        assignedTo: staff.id,
+                        assignedName: staff.name,
+                        status: 'Assigned'
+                    });
+
+                    // Send notification to staff
+                    addMessage({
+                        complaintId: complaintId,
+                        senderId: currentUser.id,
+                        senderName: currentUser.name,
+                        senderRole: currentUser.role,
+                        receiverId: staff.id,
+                        receiverName: staff.name,
+                        message: `You have been assigned complaint #${complaintId}: ${currentComplaint.category} - ${currentComplaint.description.substring(0, 50)}...`
+                    });
+
+                    alert(`Complaint assigned to ${staff.name}`);
+                    loadComplaintDetails();
+                } else {
+                    alert('Invalid staff ID');
+                }
+            }
+        }
+
+        function showStatusForm() {
+            document.getElementById('status-update-form').style.display = 'block';
+            document.getElementById('new-status').value = currentComplaint.status;
+        }
+
+        function hideStatusForm() {
+            document.getElementById('status-update-form').style.display = 'none';
+        }
+
+        function updateStatus() {
+            const newStatus = document.getElementById('new-status').value;
+            const notes = document.getElementById('status-notes').value;
+
+            const updates = {
+                status: newStatus
+            };
+
+            if (notes) {
+                // Add message about status update
+                addMessage({
+                    complaintId: complaintId,
+                    senderId: currentUser.id,
+                    senderName: currentUser.name,
+                    senderRole: currentUser.role,
+                    receiverId: currentComplaint.studentId,
+                    receiverName: currentComplaint.studentName,
+                    message: `Status updated to "${newStatus}"${notes ? ': ' + notes : ''}`
+                });
+            }
+
+            if ((newStatus === 'Resolved' || newStatus === 'Closed') && !currentComplaint.resolvedAt) {
+                updates.resolvedAt = new Date().toISOString();
+            }
+
+            updateComplaint(complaintId, updates);
+            alert('Status updated successfully');
+            hideStatusForm();
+            loadComplaintDetails();
+        }
+
+        function markAsResolved() {
+            if (confirm('Mark this complaint as resolved?')) {
+                updateComplaint(complaintId, {
+                    status: 'Resolved',
+                    resolvedAt: new Date().toISOString()
+                });
+
+                // Notify student
+                addMessage({
+                    complaintId: complaintId,
+                    senderId: currentUser.id,
+                    senderName: currentUser.name,
+                    senderRole: currentUser.role,
+                    receiverId: currentComplaint.studentId,
+                    receiverName: currentComplaint.studentName,
+                    message: `Your complaint #${complaintId} has been marked as resolved. Please provide feedback.`
+                });
+
+                alert('Complaint marked as resolved');
+                loadComplaintDetails();
+            }
+        }
+
+        function provideFeedback() {
+            const rating = prompt('Please rate the resolution (1-5 stars):');
+            if (rating && rating >= 1 && rating <= 5) {
+                const comments = prompt('Any comments about the resolution:');
+                updateComplaint(complaintId, {
+                    feedback: {
+                        rating: parseInt(rating),
+                        comments: comments || '',
+                        submittedAt: new Date().toISOString()
+                    }
+                });
+
+                // Notify assigned staff
+                if (currentComplaint.assignedTo) {
+                    addMessage({
+                        complaintId: complaintId,
+                        senderId: currentUser.id,
+                        senderName: currentUser.name,
+                        senderRole: currentUser.role,
+                        receiverId: currentComplaint.assignedTo,
+                        receiverName: currentComplaint.assignedName,
+                        message: `Feedback received for complaint #${complaintId}: ${rating} stars${comments ? ' - ' + comments : ''}`
+                    });
+                }
+
+                alert('Thank you for your feedback!');
+                loadComplaintDetails();
+            }
+        }
+
+        function updateNotificationBadge() {
+            const unreadCount = getUnreadCount(currentUser.id);
+            const badge = document.getElementById('message-notification');
+
+            if (unreadCount > 0) {
+                badge.textContent = unreadCount;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+
+</html>
